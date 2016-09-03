@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Elements</title>
+
+        <script>window.$ = window.jQuery = require('./jquery.min.js');</script>
+        <script type="text/javascript" src="./jstree.min.js"></script>
+        <script type="text/javascript" src="./jstree.min.js"></script>
+        <script type="text/javascript" src="./wavesurfer.min.js"></script>
+
+        <link rel="stylesheet" href="./themes/default/style.min.css" />
+
+
+
+
+
+    </head>
+    <body>
+        <script>
+            $(document).ready(function () {
+                $("#jstree_demo_div").jstree({ 'core' : {
+                    'data' : [
+                       'Simple root node',
+                       {
+                         'text' : 'Root node 2',
+                         'state' : {
+                           'opened' : true,
+                           'selected' : true
+                         },
+                         'children' : [
+                           { 'text' : 'Child 1' },
+                           'Child 2'
+                         ]
+                      }
+                    ]
+                } });
+            });
+        </script>
+
+
+        <div id="holder">
+  Drag your file here
+</div>
+
+<script>
+  const holder = document.getElementById('holder')
+  holder.ondragover = () => {
+    return false;
+  }
+  holder.ondragleave = holder.ondragend = () => {
+    return false;
+  }
+  holder.ondrop = (e) => {
+    e.preventDefault()
+    for (let f of e.dataTransfer.files) {
+      console.log('File(s) you dragged here: ', f.path)
+    }
+    return false;
+  }
+</script>
+
+
+        <h1>Hello World!</h1>
+
+        <div id="jstree_demo_div"></div>
+
+        <div id="waveform"></div>
+
+        <div class="col-xs-10">
+            <input id="slider" type="range" min="1" max="200" value="1" style="width: 100%" />
+        </div>
+
+        <script>
+            var wavesurfer = WaveSurfer.create({
+                container: '#waveform',
+                waveColor: 'grey',
+                progressColor: 'red',
+            });
+
+            // wavesurfer.load('../What_Would_We_Do_copy.mp3');
+            wavesurfer.load('../HipHopcopy.wav');
+
+            wavesurfer.on('ready', function () {
+                // wavesurfer.play();
+            });
+
+
+            var slider = document.querySelector('#slider');
+
+            slider.oninput = function () {
+                var zoomLevel = Number(slider.value);
+                wavesurfer.zoom(zoomLevel);
+            };
+
+        </script>
+
+    </body>
+</html>
