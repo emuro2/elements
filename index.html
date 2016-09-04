@@ -21,18 +21,113 @@
             $(document).ready(function () {
                 $("#jstree_demo_div").jstree({ 'core' : {
                     'data' : [
-                       'Simple root node',
-                       {
-                         'text' : 'Root node 2',
-                         'state' : {
-                           'opened' : true,
-                           'selected' : true
-                         },
-                         'children' : [
-                           { 'text' : 'Child 1' },
-                           'Child 2'
-                         ]
-                      }
+                    //    'Simple root node',
+                    //    {
+                    //      'text' : 'Root node 2',
+                    //      'state' : {
+                    //        'opened' : true,
+                    //        'selected' : true
+                    //      },
+                    //      'children' : [
+                    //        { 'text' : 'Child 1' },
+                    //        'Child 2'
+                    //      ]
+                    //   }
+                    {
+    "parent": "..",
+    "path": "",
+    "text": "coverage",
+    "type": "directory",
+    "children": [{
+        "parent": "",
+        "path": "coverage-final.json",
+        "text": "coverage-final.json",
+        "type": "file"
+    }, {
+        "parent": "",
+        "path": "index.html",
+        "text": "index.html",
+        "type": "file"
+    }, {
+        "parent": "",
+        "path": "lcov-report",
+        "text": "lcov-report",
+        "type": "directory",
+        "children": [{
+            "parent": "lcov-report",
+            "path": "lcov-report/index.html",
+            "text": "index.html",
+            "type": "file"
+        }, {
+            "parent": "lcov-report",
+            "path": "lcov-report/prettify.css",
+            "text": "prettify.css",
+            "type": "file"
+        }, {
+            "parent": "lcov-report",
+            "path": "lcov-report/prettify.js",
+            "text": "prettify.js",
+            "type": "file"
+        }, {
+            "parent": "lcov-report",
+            "path": "lcov-report/src",
+            "text": "src",
+            "type": "directory",
+            "children": [{
+                "parent": "lcov-report/src",
+                "path": "lcov-report/src/createDirectoryObject.js.html",
+                "text": "createDirectoryObject.js.html",
+                "type": "file"
+            }, {
+                "parent": "lcov-report/src",
+                "path": "lcov-report/src/index.html",
+                "text": "index.html",
+                "type": "file"
+            }, {
+                "parent": "lcov-report/src",
+                "path": "lcov-report/src/main.js.html",
+                "text": "main.js.html",
+                "type": "file"
+            }]
+        }]
+    }, {
+        "parent": "",
+        "path": "lcov.info",
+        "text": "lcov.info",
+        "type": "file"
+    }, {
+        "parent": "",
+        "path": "prettify.css",
+        "text": "prettify.css",
+        "type": "file"
+    }, {
+        "parent": "",
+        "path": "prettify.js",
+        "text": "prettify.js",
+        "type": "file"
+    }, {
+        "parent": "",
+        "path": "src",
+        "text": "src",
+        "type": "directory",
+        "children": [{
+            "parent": "src",
+            "path": "src/createDirectoryObject.js.html",
+            "text": "createDirectoryObject.js.html",
+            "type": "file"
+        }, {
+            "parent": "src",
+            "path": "src/index.html",
+            "text": "index.html",
+            "type": "file"
+        }, {
+            "parent": "src",
+            "path": "src/main.js.html",
+            "text": "main.js.html",
+            "type": "file"
+        }]
+    }]
+}
                     ]
                 } });
             });
@@ -44,6 +139,21 @@
 </div>
 
 <script>
+
+    var dirToJson = require('dir-to-json');
+
+    var pathToJson = function( filePath ){
+        dirToJson(filePath)
+        .then( function( dirTree ){
+            console.log( dirTree );
+
+            $("#jstree_demo_div").jstree().load_node([dirTree]);
+        })
+        .catch( function( err ){
+            throw err;
+        });
+    };
+
   const holder = document.getElementById('holder')
   holder.ondragover = () => {
     return false;
@@ -55,6 +165,7 @@
     e.preventDefault()
     for (let f of e.dataTransfer.files) {
       console.log('File(s) you dragged here: ', f.path)
+      pathToJson(f.path);
     }
     return false;
   }
